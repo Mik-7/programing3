@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            margin-left: 550px;
+            margin-top: 90px;
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
+        h1 {
+            text-align: center;
+            text-shadow: rgb(255, 255, 255) 4px 2px;
+        }
+
+        h2 {
+            margin-left: 1500px;
+
+        }
+
+        table,
+        th,
+        td {
+            border: 4px solid black;
+        }
+
+        .green {
+            background-color: green;
+        }
+        .yellow{
+            background-color: yellow;
+        }
+        .red{
+            background-color: red;
+        }
+        .blue{
+            background-color: blue;
+        }
+        table{
+            margin: auto;
+            border-radius: 10px;
+        }
+        #my_back{
+            width: 1800px;
+            height: 1200px;
+            overflow: auto;
+            background: red;
+            animation: mymove 5s infinite;
+        }
+
+        @keyframes mymove {
+        from {background-color: red;}
+        to {background-color: blue;}
+        }
+        audio{
+            margin-left: 760px;
+            margin-bottom: 25px;
+           
+        }
+    </style>
+</head>
+
+<body id="my_back"> 
+    <h1>Game-Of-Life</h1>
+    <table style="width:70%">
+        <tr>
+            <th>Կերպար</th>
+            <th>Նկարագրություն</th>
+        </tr>
+        <tr class="green">
+            <td>Կանաչ</td>
+            <td>Կանաչը դա խոտն է որը բազմանում է ամբողջ դաշտով</td>
+        </tr>
+        <tr class="yellow">
+            <td>Խոտակեր</td>
+            <td>Խոտակերի դերը խոտերին ուտելն է</td>
+        </tr>
+        <tr class="red">
+            <td>Ամենակեր</td>
+            <td>Ամենակերը ոչնչացնում է Խոտակերին</td>
+        </tr>
+        <tr class="blue">
+            <td>Ջուր</td>
+            <td>Ջրից ստեղծվում են խոտեր</td>
+        </tr>
+        
+        <audio controls aria-hidden="true">
+            <source src="xxxtentacion.mp3"ß>
+        </audio>
+
+
+
+       
+
+        
+    
+
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
+        <script src="class.js"></script>
+        <script src="script.js"></script>
+
+</body>
+
+</html>
