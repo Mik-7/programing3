@@ -1,4 +1,6 @@
-class LivingCreature{
+let LivingCreature = require(".LivingCreature")
+
+moodule.exports = class LivingCreature{
     constructor(x, y) {
         super(x,y);
         

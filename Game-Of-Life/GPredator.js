@@ -1,4 +1,6 @@
-class GPredator extends LivingCreature{
+let LivingCreature = require(".LivingCreature")
+
+moodule.exports = class GPredator extends LivingCreature{
     constructor(x, y) {
         super(x,y);
         

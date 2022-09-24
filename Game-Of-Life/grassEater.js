@@ -1,4 +1,6 @@
-class GrassEater extends LivingCreature{
+let LivingCreature = require(".LivingCreature")
+
+moodule.exports = class GrassEater extends LivingCreature{
     constructor(x, y) {
         super(x,y);
         
