@@ -1,5 +1,5 @@
 
-console.log(matrix);
+var socket = io()
 
 var side = 35;
 
@@ -10,45 +10,14 @@ var jurArr = []
 var gpredatorArr = []
 
 function setup() {
-    frameRate(10)
-    createCanvas(matrix[0].length * side, matrix.length * side);
-
-    for (var y = 0; y < matrix.length; y++) {
-        for (var x = 0; x < matrix[y].length; x++) {
-            if (matrix[y][x] == 1) {
-                var gr = new Grass(x, y)
-
-                grassArr.push(gr)
-            } else if (matrix[y][x] == 2) {
-                var grEat = new GrassEater(x, y)
-
-                grassEaterArr.push(grEat)
-            } else if (matrix[y][x] == 3) {
-                var pre = new Predator(x, y)
-
-                predatorArr.push(pre)
+   
+    createCanvas(20 * side, 20 * side);
 
 
-            } else if (matrix[y][x] == 4) {
-                var pre = new JUR(x, y)
-
-                jurArr.push(pre)
-            }
-
-        else if (matrix[y][x] == 5) {
-            var pre = new GPredator(x, y)
-
-            gpredatorArr.push(gre)
-        
-        }
-    }
-
-
-    }
 }
 
 
-function draw() {
+function nkarel(matrix) {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
@@ -72,29 +41,7 @@ function draw() {
         }
     }
 
-    for (var i in grassArr) {
-        grassArr[i].mul()
-    }
-
-    for (let j in grassEaterArr) {
-        grassEaterArr[j].mul()
-        grassEaterArr[j].eat()
-    }
-
-    for (let j in predatorArr) {
-        predatorArr[j].mul()
-        predatorArr[j].eat()
-
-    }
-
-    for (let j in jurArr) {
-        jurArr[j].mul()
-
-    }
-
-    for (let j in gpredatorArr) {
-        gpredatorArr[j].mul()
-        
-
-    }
 }
+
+
+     socket.on('send matrix', nkarel)

@@ -116,32 +116,48 @@ grassArr = []
     //քանի որ քո կլասս-երը արդեն մոդուլներ են և ոչ մի կապ չունեն html ֆայլիդ հետ՝
     //այլ աշխատում են սերվերի վրա:
     //Դու պետք է նրանց իմպորտ անես: Ինձ մոտ նրանք երկուսն են, քեզ մոտ ավելի շատ
-     Grass = require("./Grass")
-     GrassEater = require("./GrassEater")
-     Predator = require("./Predator")
-     Jur = require("./Jur")
+     Grass = require("./grass")
+     GrassEater = require("./grassEater")
+     Predator = require("./predator")
+     Jur = require("./jur")
      GPredator = require("./GPredator")
 
     //Այժմ լցնենք մատրիցը օբյեկտներով
     //սարքի մի հատ ֆունկցիա օրինակ createObject անունով
     //և էստեղ բեր քո սկրիպտ ֆայլի օբյեկտներով լցնող հատվածը
-    function createObject(matrix) {
+    function createObject() {
         for (var y = 0; y < matrix.length; y++) {
             for (var x = 0; x < matrix[y].length; x++) {
                 if (matrix[y][x] == 1) {
-                    var gr = new Grass(x, y, 1);
+                    var gr = new Grass(x, y)
+    
                     grassArr.push(gr)
+                } else if (matrix[y][x] == 2) {
+                    var grEat = new GrassEater(x, y)
+    
+                    grassEaterArr.push(grEat)
+                } else if (matrix[y][x] == 3) {
+                    var pre = new Predator(x, y)
+    
+                    predatorArr.push(pre)
+    
+    
+                } else if (matrix[y][x] == 4) {
+                    var pre = new JUR(x, y)
+    
+                    jurArr.push(pre)
                 }
-                else if (matrix[y][x] == 2) {
-                    var grEater = new GrassEater(x, y, 2);
-                    grassEaterArr.push(grEater)
-
-                }
+    
+            else if (matrix[y][x] == 5) {
+                var pre = new GPredator(x, y)
+    
+                gpredatorArr.push(gre)
+            
             }
         }
-        // և կրկին ուղարկի կլիենտիդ: 
-        //չմոռանաս , որ emit-ը տվյալ ուղարկողն է, իսկ on-ը ստացողը և կատարողը
-        //այս դեպքում 2-րդ արգումենտը տվյալն է
+    
+    
+        }
         io.sockets.emit('send matrix', matrix)
 
 
@@ -152,18 +168,37 @@ grassArr = []
     //որևէ անունով կոչիր ֆունկցիադ և մեջը դիր մեթոդների հատվածը:
 
     function game() {
-        for (var i in grassArr) {
-            grassArr[i].mul()
-        }
-        for (var i in grassEaterArr) {
-            grassEaterArr[i].eat();
-        }
-        //այո, դու ճիշտ ես տեսնում, կրկին և կրկին
+      
+    for (var i in grassArr) {
+        grassArr[i].mul()
+    }
+
+    for (let j in grassEaterArr) {
+        grassEaterArr[j].mul()
+        grassEaterArr[j].eat()
+    }
+
+    for (let j in predatorArr) {
+        predatorArr[j].mul()
+        predatorArr[j].eat()
+
+    }
+
+    for (let j in jurArr) {
+        jurArr[j].mul()
+
+    }
+
+    for (let j in gpredatorArr) {
+        gpredatorArr[j].mul()
+        
+
+    }
         io.sockets.emit("send matrix", matrix);
     }
 
     //մեր խաղի շարժը լինելու է 1 վարկյանը մեկ
-    setInterval(game, 1000)
+    setInterval(game, 200)
     
 
 

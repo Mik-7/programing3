@@ -1,6 +1,6 @@
-let LivingCreature = require(".LivingCreature")
+let LivingCreature = require("./LivingCreature")
 
-moodule.exports = class Predator extends LivingCreature {
+module.exports = class Predator extends LivingCreature {
     constructor(x, y) {
         super(x,y);
         
