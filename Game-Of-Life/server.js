@@ -4,6 +4,7 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var fs = require("fs");
+const Jur = require('./jur');
 
 app.use(express.static("."));
 
@@ -119,7 +120,7 @@ grassArr = []
      Grass = require("./grass")
      GrassEater = require("./grassEater")
      Predator = require("./predator")
-     Jur = require("./jur")
+     JUR1 = require("./jur")
      GPredator = require("./GPredator")
 
     //Այժմ լցնենք մատրիցը օբյեկտներով
@@ -143,7 +144,7 @@ grassArr = []
     
     
                 } else if (matrix[y][x] == 4) {
-                    var pre = new JUR(x, y)
+                    var pre = new Jur(x, y)
     
                     jurArr.push(pre)
                 }
@@ -209,7 +210,7 @@ grassArr = []
       //և մենք դեռ չէինք կանչել createObject ֆունկցիան
       // էստեղ կկանչենք )))
 io.on('connection', function () {
-    createObject(matrix)
+    createObject()
 })
 
 //դե ինչ այսօր այսքանը:
