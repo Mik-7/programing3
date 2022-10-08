@@ -3,11 +3,7 @@ var socket = io()
 
 var side = 35;
 
-var grassArr = []
-var grassEaterArr = []
-var predatorArr = []
-var jurArr = []
-var gpredatorArr = []
+
 
 function setup() {
    
@@ -16,12 +12,29 @@ function setup() {
 
 }
 
+socket.on("weather", function (data) {
+    weath = data;
+})
+weath = "winter"
+
+
+
 
 function nkarel(matrix) {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
+
+            
             if (matrix[y][x] == 1) {
-                fill("green")
+                if(weath == "summer") {
+                    fill("green");
+                }else if (weath == "autumn") {
+                    fill("#333300");
+                }else if (weath == "winter") {
+                    fill("white");
+                }else if (weath == "spring") {
+                    fill("#4dffa6");
+                }
             } else if (matrix[y][x] == 2) {
                 fill("yellow")
             } else if (matrix[y][x] == 3) {
@@ -44,4 +57,30 @@ function nkarel(matrix) {
 }
 
 
-     socket.on('send matrix', nkarel)
+     socket.on("send matrix", nkarel)
+
+
+     function kill() {
+        socket.emit("kill")
+    }
+
+    function addGrass(){
+        socket.emit("add grass")
+    }
+
+    function addGrassEater(){
+        socket.emit("add grassEater")
+    }
+
+    function addJur(){
+        socket.emit("add jur")
+    }
+
+    function addPredator(){
+        socket.emit("add predator")
+    }
+
+    function addGPredator(){
+        socket.emit("add gpredator")
+    }
+

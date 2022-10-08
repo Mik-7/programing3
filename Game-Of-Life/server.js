@@ -1,10 +1,9 @@
-//առաջին 10 տողը նույնությամբ գրիր, որպեսզի լոկալհոստ ունենաս
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var fs = require("fs");
-const Jur = require('./jur');
+
 
 app.use(express.static("."));
 
@@ -89,44 +88,23 @@ function matrixGenerator(matrixSize, grassCount, grEatCount, predatorCount, jurC
  matrix = matrixGenerator(20, 15, 20, 5, 4, 2);
  
  io.sockets.emit('send matrix', matrix)
-//10
 
-//քո սկրիպտ ֆայլից տպի մատրիցդ գեներացնոլու հատվածը և դատարկ զանգվածը
-// ինձ մոտ այն չի գեներացվում,,,քեզ մոտ լաաաավ կլինի , որ գեներացվի
-
-
-//այստեղ քո պատրաստի թվերով լցված զանգվածը ուղարկում ես կլիենտին:
-//սոքեթի emit մեթոդը թույլ է տալիս առաջին արգումենտով ստեղծել իվենթի անունը, 
-//2-րդ արգումենտով ուղղարկել տվյալը, այն ինչ ուզում ես ուղարկել
-
-    
-// հիմա գնա կլիենտի ֆայլ
-
-//.........................................լոադինգ
-
-//եթե գնացիր ու ամենինչ գրեցիր, արի էստեղ, դեռ անելիք ունենք
-
-//էստեղ բեր քո գազանիկների դատարկ զանգվածները
 
 grassArr = []
  grassEaterArr = []
  predatorArr = []
  jurArr = []
  gpredatorArr = []
-
-    //քանի որ քո կլասս-երը արդեն մոդուլներ են և ոչ մի կապ չունեն html ֆայլիդ հետ՝
-    //այլ աշխատում են սերվերի վրա:
-    //Դու պետք է նրանց իմպորտ անես: Ինձ մոտ նրանք երկուսն են, քեզ մոտ ավելի շատ
+weath = "winter"
+   
      Grass = require("./grass")
      GrassEater = require("./grassEater")
      Predator = require("./predator")
-     JUR1 = require("./jur")
+     Jur = require("./jur")
      GPredator = require("./GPredator")
 
-    //Այժմ լցնենք մատրիցը օբյեկտներով
-    //սարքի մի հատ ֆունկցիա օրինակ createObject անունով
-    //և էստեղ բեր քո սկրիպտ ֆայլի օբյեկտներով լցնող հատվածը
-    function createObject() {
+   
+    function createObject(matrix) {
         for (var y = 0; y < matrix.length; y++) {
             for (var x = 0; x < matrix[y].length; x++) {
                 if (matrix[y][x] == 1) {
@@ -159,14 +137,13 @@ grassArr = []
     
     
         }
-        io.sockets.emit('send matrix', matrix)
+        io.sockets.emit("send matrix", matrix)
 
 
     }
 
 
-    //հիմա անցնենք նրանց վայրենի գործունեությանը
-    //որևէ անունով կոչիր ֆունկցիադ և մեջը դիր մեթոդների հատվածը:
+    
 
     function game() {
       
@@ -195,31 +172,135 @@ grassArr = []
         
 
     }
+}
+
+setInterval(game, 200)
+
+    function kill() {
+        grassArr = [];
+        grassEaterArr = []
+        predatorArr = []
+        jurArr = []
+        gpredatorArr = []
+        for (var y = 0; y < matrix.length; y++) {
+            for (var x = 0; x < matrix[y].length; x++) {
+                matrix[y][x] = 0;
+            }
+        }
         io.sockets.emit("send matrix", matrix);
     }
 
-    //մեր խաղի շարժը լինելու է 1 վարկյանը մեկ
-    setInterval(game, 200)
+        function addGrass() {
+            for (var i = 0; i < 7; i++) {
+            var x = Math.floor(Math.random() * matrix[0].length)
+            var y = Math.floor(Math.random() * matrix.length)
+                if (matrix[y][x] == 0) {
+                    matrix[y][x] = 1
+                    var gr = new Grass(x, y, 1)
+                    grassArr.push(gr)
+                }
+            }
+            io.sockets.emit("send matrix", matrix);
+        }
+        
+        function addGrassEater() {
+            for (var i = 0; i < 7; i++) {   
+            var x = Math.floor(Math.random() * matrix[0].length)
+            var y = Math.floor(Math.random() * matrix.length)
+                if (matrix[y][x] == 0) {
+                    matrix[y][x] = 2
+                    grassEaterArr.push(new GrassEater(x, y, 2))
+                }
+            }
+           io.sockets.emit("send matrix", matrix);
+        }
+
+
+        function addJur() {
+            for (var i = 0; i < 7; i++) {   
+            var x = Math.floor(Math.random() * matrix[0].length)
+            var y = Math.floor(Math.random() * matrix.length)
+                if (matrix[y][x] == 0) {
+                    matrix[y][x] = 3
+                    jurArr.push(new Jur(x, y, 3))
+                }
+            }
+           io.sockets.emit("send matrix", matrix);
+        }
+
+        function addPredator() {
+            for (var i = 0; i < 7; i++) {   
+            var x = Math.floor(Math.random() * matrix[0].length)
+            var y = Math.floor(Math.random() * matrix.length)
+                if (matrix[y][x] == 0) {
+                    matrix[y][x] = 4
+                    predatorArr.push(new Predator(x, y, 4))
+                }
+            }
+           io.sockets.emit("send matrix", matrix);
+        }
+
+
+       function addGPredator() {
+        for (var i = 0; i < 7; i++) {   
+        var x = Math.floor(Math.random() * matrix[0].length)
+        var y = Math.floor(Math.random() * matrix.length)
+            if (matrix[y][x] == 0) {
+                matrix[y][x] = 4
+                gpredatorArr.push(new GPredator(x, y, 5))
+            }
+        }
+       io.sockets.emit("send matrix", matrix);
+    }
+
+
+    
+ 
+
+
+    function weather() {
+        if (weath == "winter") {
+            weath = "spring"
+        }
+        else if (weath == "spring") {
+            weath = "summer"
+        }
+        else if (weath == "summer") {
+            weath = "autumn"
+        }
+        else if (weath == "autumn") {
+            weath = "winter"
+        }
+        io.sockets.emit('weather', weath)
+    }
+    setInterval(weather, 5000);
     
 
+    
 
-      // մինչև այժմ մենք ինքներս էինք դնում իվենթների անուննները, 
-      //օրինակ send matrix կամ ըըը... էլ չկա :D
-      // էստեղ connection պատրասի իվենթի անուն է, որը աշխատում է այն ժամանակ, 
-      //երբ որևէ մեկը աշխատացնում է սերվերը՝ մտնում է սերվեր
-      //և մենք դեռ չէինք կանչել createObject ֆունկցիան
-      // էստեղ կկանչենք )))
-io.on('connection', function () {
-    createObject()
+     
+io.on('connection', function (socket) {
+    createObject(matrix)
+    socket.on("kill", kill);
+    socket.on("add grass", addGrass);
+    socket.on("add grassEater", addGrassEater);
+    socket.on("add jur", addJur);
+    socket.on("add predator", addPredator);
+    socket.on("add gpredator", addGPredator);
+    
+
 })
 
-//դե ինչ այսօր այսքանը:
-
-//ինձ համար շատ կարևոր է , որ հենց դու շատ լավ հասկանաս էս 
-//ամենը ու լինես լավագույնը քո ընտրած ոլորտում:
+var statistics = {};
 
 
-
-//Գիտեմ, որ լիիիիիքը սխալ կա մեջը: Դուք ճիշտը գրեք :PPPPP
-
-//https://github.com/gor2006/prog3
+setInterval(function() {
+    statistics.grass = grassArr.length;
+    statistics.grassEater = grassEaterArr.length;
+    statistics.jur = jurArr.length;
+    statistics.predator = predatorArr.length;
+    statistics.gpredator = gpredatorArr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
+        console.log("send")
+    })
+},1000)

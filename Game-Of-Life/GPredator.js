@@ -51,7 +51,7 @@ module.exports = class GPredator extends LivingCreature{
 
                                 var gr = new GPredator (newX,newY); 
 
-                                gpredatorArr.push(gre);
+                                gpredatorArr.push(gr);
 
                                 this.multiply = 0;
                          
